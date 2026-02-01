@@ -3,6 +3,8 @@ const mysql = require("mysql2");
 const path = require("path");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
 // Serve frontend
@@ -17,7 +19,7 @@ const db = mysql.createConnection({
 
 // Health for ALB
 app.get("/health", (req, res) =>
-  res.json({ status: "UP", service: "ELMS" })
+  res.status(200).json({ status: "UP", service: "ELMS" })
 );
 
 // Register
@@ -46,5 +48,7 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.listen(3000, () => console.log("ELMS running 3000"));
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`ELMS running on port ${PORT}`)
+);
 
